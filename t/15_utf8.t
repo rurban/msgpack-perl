@@ -4,6 +4,8 @@ use Test::More;
 use Data::MessagePack;
 use utf8;
 
+die "1..0 #skip utf8\n" if $] < 5.008;
+
 my $data = [42, undef, 'foo', "\x{99f1}\x{99dd}"];
 my $packed = Data::MessagePack->pack($data) x 2;
 

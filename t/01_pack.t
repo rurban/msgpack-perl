@@ -15,7 +15,7 @@ sub pis ($$) {
 
 my @dat = (
     0,     '00',
-    (my $foo="0")+0, '00',
+    (my $foo="0")+0, '00', # with 5.6 PVIV with POK, since 5.8 IOK
     {2 => undef}, '81 a1 32 c0',
     do {no warnings; my $foo = 10; "$foo"; $foo = undef; $foo} => 'c0', # PVIV but !POK && !IOK
     1,     '01',
@@ -59,6 +59,8 @@ my @dat = (
     'a' x 0x0100, 'da 01 00' . (' 61' x 0x0100),
     [(undef) x 0x0100], 'dc 01 00' . (' c0' x 0x0100),
 );
+splice(@dat,2,2,()) if $] < 5.008; #skip 2nd test on 5.6
+
 plan tests => 1*(scalar(@dat)/2);
 
 for (my $i=0; $i<scalar(@dat); ) {

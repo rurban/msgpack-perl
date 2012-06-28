@@ -5,17 +5,19 @@ use Data::Dumper;
 no warnings; # shut up "Integer overflow in hexadecimal number"
 
 sub packit {
-    local $_ = unpack("H*", Data::MessagePack->pack($_[0]));
+    local $_ = unpack("H*", shift->pack($_[0]));
     s/(..)/$1 /g;
     s/ $//;
     $_;
 }
 
 sub pis ($$) {
+    my $mp = new Data::MessagePack;
+    $mp->prefer_integer();
     if (ref $_[1]) {
-        like packit($_[0]), $_[1], 'dump ' . $_[1];
+        like packit($mp, $_[0]), $_[1], 'dump ' . $_[1];
     } else {
-        is packit($_[0]), $_[1], 'dump ' . $_[1];
+        is packit($mp, $_[0]), $_[1], 'dump ' . $_[1];
     }
     # is(Dumper(Data::MessagePack->unpack(Data::MessagePack->pack($_[0]))), Dumper($_[0]));
 }
@@ -47,20 +49,19 @@ my @dat = (
     {'0' => '1'}, '81 00 01',
     {'abc' => '1'}, '81 a3 61 62 63 01',
 );
-plan tests => 1*(scalar(@dat)/2) + 2;
+plan tests => 1*(scalar(@dat)/2) + ($] > 5.008 ? 2 : 1);
 
 for (my $i=0; $i<scalar(@dat); ) {
-    local $Data::MessagePack::PreferInteger = 1;
     my($x, $y) = ($i++, $i++);
     pis $dat[$x], $dat[$y];
 }
 
-# flags working?
+# deprecated flags working?
 {
     local $Data::MessagePack::PreferInteger;
     $Data::MessagePack::PreferInteger = 1;
     pis '0',     '00';
     $Data::MessagePack::PreferInteger = 0;
-    pis '0',     'a1 30';
+    pis '0',     'a1 30' if $] > 5.008;
 }
 

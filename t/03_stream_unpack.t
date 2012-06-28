@@ -22,6 +22,13 @@ sub pis ($$) {
 }
 
 my @dat = do 't/data.pl';
+if ($] < 5.008001) {
+   local $/;
+   open F, "< t/data.pl";
+   my $dat = <F>;
+   close F;
+   eval "\@dat = $dat;";
+}
 
 plan tests => 1*(scalar(@dat)/2) + 3;
 

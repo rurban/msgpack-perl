@@ -18,7 +18,7 @@ if ($Module::Install::AUTHOR) {
 }
 
 my $use_xs = 0;
-if ( $] >= 5.008005 and want_xs() ) {
+if ( want_xs() ) { #$] >= 5.008005 and
     my $has_c99 = c99_available(); # msgpack C library requires C99.
 
     if ( $has_c99 ) {

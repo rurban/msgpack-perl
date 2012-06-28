@@ -1,7 +1,8 @@
 package Data::MessagePack;
 use strict;
 use warnings;
-use 5.008001;
+#use 5.008001;
+use 5.006002;
 
 our $VERSION = '0.44';
 

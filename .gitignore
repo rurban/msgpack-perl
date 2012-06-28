@@ -12,7 +12,6 @@ t/std/
 *.o
 pm_to_blib
 MANIFEST
-ppport.h
 .testenv/
 xshelper.h
 *.swp

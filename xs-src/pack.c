@@ -2,6 +2,7 @@
  * code is written by tokuhirom.
  * buffer alocation technique is taken from JSON::XS. thanks to mlehmann.
  */
+#define NEED_sv_2pv_flags_GLOBAL
 #include "xshelper.h"
 
 #include "msgpack/pack_define.h"
@@ -108,8 +109,12 @@ void init_Data__MessagePack_pack(pTHX_ bool const cloning) {
     }
 
     SV* var = get_sv("Data::MessagePack::" DMP_PREF_INT, GV_ADDMULTI);
+#if PERL_VERSION >= 8
     sv_magicext(var, NULL, PERL_MAGIC_ext, &dmp_config_vtbl,
             DMP_PREF_INT, 0);
+#else
+    sv_magic(var, NULL, '~', DMP_PREF_INT, 0);
+#endif
     SvSETMAGIC(var);
 }
 
@@ -252,7 +257,9 @@ STATIC_INLINE void _msgpack_pack_rv(pTHX_ enc_t *enc, SV* sv, int depth) {
             }
 
             int const len = av_len(keys) + 1;
+#if PERL_VERSION >= 8
             sortsv(AvARRAY(keys), len, Perl_sv_cmp);
+#endif
 
             int i;
             for (i=0; i<len; i++) {

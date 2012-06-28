@@ -1,4 +1,3 @@
-no warnings; # i need this, i need this.
 (
     '93 c0 c2 c3' => [undef, false, true],
     '94 a0 a1 61 a2 62 63 a3 64 65 66', ["", "a", "bc", "def"],

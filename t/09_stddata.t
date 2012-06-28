@@ -8,7 +8,7 @@ use t::Util;
 use Data::MessagePack;
 
 sub slurp {
-    open my $fh, '<:raw', $_[0] or die "failed to open '$_[0]': $!";
+    open my $fh, '<'.($]>5.008?':raw':''), $_[0] or die "failed to open '$_[0]': $!";
     local $/;
     return scalar <$fh>;
 }

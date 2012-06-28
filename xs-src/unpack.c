@@ -1,5 +1,6 @@
 #define NEED_newRV_noinc
 #define NEED_sv_2pv_flags
+#define NEED_sv_2pv_flags_GLOBAL
 #include "xshelper.h"
 
 #define MY_CXT_KEY "Data::MessagePack::_unpack_guts" XS_VERSION

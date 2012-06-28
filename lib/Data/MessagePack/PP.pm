@@ -1,5 +1,5 @@
 package Data::MessagePack::PP;
-use 5.008001;
+#use 5.008001;
 use strict;
 use warnings;
 no warnings 'recursion';
@@ -249,7 +249,7 @@ sub _pack {
             # fallthrough
         }
 
-        utf8::encode( $value ) if utf8::is_utf8( $value );
+        utf8::encode( $value ) if $] > 5.008 and utf8::is_utf8( $value );
 
         my $num = length $value;
         my $header =

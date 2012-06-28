@@ -2,7 +2,7 @@
 use strict;
 use warnings;
 
-use Test::More;
+use Test::More ($] < 5.008 ? (skip_all => "need 5.8 for Encode") : ());
 use Data::MessagePack;
 use Encode qw(encode decode);
 {

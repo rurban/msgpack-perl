@@ -9,6 +9,8 @@ use Data::MessagePack;
 use Test::More;
 use t::Util;
 
+die "1..0 #skip PerlIO\n" if $] < 5.008;
+
 my $input = [
     false,true,null,0,0,0,0,0,0,0,0,0,-1,-1,-1,-1,-1,
     127,127,255,65535,4294967295,-32,-32,-128,-32768,

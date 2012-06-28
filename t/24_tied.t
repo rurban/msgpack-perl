@@ -18,10 +18,11 @@ tie( %data, 'Tie::StdHash' );
 
 {
     my $mp = Data::MessagePack->new();
-    my $packed = eval { $mp->pack( \%data ); };
+    my $packed = $mp->pack( \%data );
     ok(unpack("C", substr($packed,0,1)) == 131, "pack did a map with 3 elems");
-    #diag unpack("CC", substr($packed,0,2)),$packed;
-    my $unpacked = eval { $mp->unpack( $packed ); };
+    diag unpack("CC", substr($packed,0,2)),$packed;
+    my $unpacked = $mp->unpack( $packed );
+    #my $unpacked = eval { $mp->unpack( $packed ); };
     if ($@) {
       ok( 0, "unpack tied" );
     } else {

@@ -3,7 +3,7 @@
 use strict;
 use warnings;
 use Config;
-use if $Config{nvsize} > 8,
+use if ($Config{nvsize} > 8 || $] <5.008),
     'Test::More', skip_all => 'long double is not supported';
 use Test::More;
 use Data::MessagePack;
